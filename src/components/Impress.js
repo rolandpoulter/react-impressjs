@@ -366,7 +366,7 @@ export default class Impress extends Component {
     // get id via index from stepsData
     prev = prev >= 0
         ? stepsDataKeys[prev]
-        : stepsDataKeys[stepsDataKeys.length - 1];
+        : stepsDataKeys[stepsDataKeys.length - progressDivision];
 
     // get previous step
     prev = _stepsData[prev];
@@ -398,8 +398,11 @@ export default class Impress extends Component {
 
   // Navigate to the LAST Step.
   end() {
+    const {
+      progressDivision
+    } = this.props;
     const stepsDataEntries = Object.entries(_stepsData);
-    const lastStep = stepsDataEntries[stepsDataEntries.length - 1][1];
+    const lastStep = stepsDataEntries[stepsDataEntries.length - progressDivision][1];
 
     return this.goto(lastStep, lastStep.duration);
   }
