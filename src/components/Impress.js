@@ -40,15 +40,15 @@ export default class Impress extends Component {
       onBeforeGoTo,
       disableEvents
     } = props;
-   
+
     this.callbacks = {
       onInit,
       onGoTo,
       onBeforeGoTo,
     };
-    
-    if (disabeEvents) { this.disableEvents = true; }
-    
+
+    if (disableEvents) { this.disableEvents = true; }
+
     const rootStyles = {
       position: 'absolute',
       top: '50%',
@@ -238,7 +238,7 @@ export default class Impress extends Component {
         },
       },
     }));
-    
+
     if (this.callbacks.onInit) {
       this.callback.onInit.call(this, this);
     }
@@ -276,7 +276,7 @@ export default class Impress extends Component {
     if (this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
       return;
     }
-    
+
     const {config, activeStep} = this.state;
     let {windowScale} = this.state;
 
