@@ -139,7 +139,7 @@ export default class Impress extends Component {
     // Window resize
     this.onResize = throttle(() => {
       if (impressSupported)
-        this.goto(this.state.activeStep, 500);
+        this.goto(this.state.activeStep, 500, true);
     }, 250);
     window.addEventListener('resize', this.onResize, false);
 
@@ -272,8 +272,8 @@ export default class Impress extends Component {
    * @param {Step} step you want to navigate to.
    * @param {number} duration 1000 speed of navigation.
    */
-  goto(step, duration = 1000) {
-    if (this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
+  goto(step, duration = 1000, skipCallbacks = false) {
+    if (!skipCallbacks && this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
       return Promise.reject();
     }
 
@@ -334,7 +334,8 @@ export default class Impress extends Component {
 
     window.location.hash = _lastHash = '#/' + step.id;
 
-    this.callbacks.onGoTo && this.callbacks.onGoTo.call(this, this, step, duration);
+    !skipCallbacks && this.callbacks.onGoTo
+      && this.callbacks.onGoTo.call(this, this, step, duration);
 
     return new Promise((resolve) => {
       setTimeout(resolve, duration + 16);
