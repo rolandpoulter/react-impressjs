@@ -240,7 +240,7 @@ export default class Impress extends Component {
     }));
 
     if (this.callbacks.onInit) {
-      this.callback.onInit.call(this, this);
+      this.callbacks.onInit.call(this, this);
     }
   }
 
