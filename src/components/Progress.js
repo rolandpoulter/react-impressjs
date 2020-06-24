@@ -4,15 +4,24 @@ import PropTypes          from 'prop-types';
 
 export default class Progress extends Component {
   render() {
-    const {progress, progressDivision, stepsData, activeStep, stepsTotal} = this.props;
+    const {progress, progressDivision, stepsData, activeStep} = this.props;
     const color_gold = '#e5b560',
           color_gray = '#3e4852';
     const ua = navigator.userAgent.toLowerCase();
     const progressWidth = (ua.search(/(iphone)|(ipod)|(android)/) === -1)
         ? 0.2
         : 1;
+    let {stepsTotal} = this.props;
     let currentStepIndex = Object.keys(stepsData).
                                   findIndex((s) => s === activeStep.id) + 1;
+    if (currentStepIndex > 1) {
+      currentStepIndex = Math.ceil(currentStepIndex / progressDivision);
+    }
+
+    if (stepsTotal > 1) {
+      stepsTotal = Math.ceil(stepsTotal / progressDivision);
+    }
+
     let percent = parseInt(currentStepIndex / stepsTotal * 100, 10);
 
     return (
@@ -29,9 +38,9 @@ export default class Progress extends Component {
             opacity: .5,
           }}>
                     <span>
-                      {currentStepIndex <= 1 ? currentStepIndex : Math.ceil(currentStepIndex / progressDivision)}
+                      {currentStepIndex}
                       <span style={{paddingLeft: 1, fontSize: 13}}>
-                        {'/' + (stepsTotal <= 1 ? stepsTotal : Math.ceil(stepsTotal / progressDivision))}
+                        {'/' + stepsTotal}
                       </span>
                     </span>
           </p>
