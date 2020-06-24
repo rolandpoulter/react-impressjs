@@ -29,7 +29,26 @@ export default class Impress extends Component {
   constructor(props) {
     super(props);
 
-    const {rootData, hint, hintMessage, fallbackMessage, progress} = props;
+    const {
+      rootData,
+      hint,
+      hintMessage,
+      fallbackMessage,
+      progress,
+      onInit,
+      onGoTo,
+      onBeforeGoTo,
+      disableEvents
+    } = props;
+   
+    this.callbacks = {
+      onInit,
+      onGoTo,
+      onBeforeGoTo,
+    };
+    
+    if (disabeEvents) { this.disableEvents = true; }
+    
     const rootStyles = {
       position: 'absolute',
       top: '50%',
@@ -86,45 +105,50 @@ export default class Impress extends Component {
       this.goto(_activeStep, 500);
 
     // Listener for keyboard event
-    document.addEventListener('keyup', throttle((e) => {
-      if (e.keyCode === 9 ||
-          (e.keyCode >= 32 && e.keyCode <= 40)) {
-        switch (e.keyCode) {
-          case 35: // End
-            this.end();
-            break;
-          case 36: // Home
-            this.home();
-            break;
-          case 33: // Page up
-          case 37: // Left
-          case 38: // Up
-            this.prev();
-            break;
-          case 9:  // Tab
-          case 32: // Space
-          case 34: // Page down
-          case 39: // Right
-          case 40: // Down
-            this.next();
-            break;
-          default:
-            break;
+    if (!this.disableEvents) {
+      this.onKeyUp = throttle((e) => {
+        if (e.keyCode === 9 ||
+            (e.keyCode >= 32 && e.keyCode <= 40)) {
+          switch (e.keyCode) {
+            case 35: // End
+              this.end();
+              break;
+            case 36: // Home
+              this.home();
+              break;
+            case 33: // Page up
+            case 37: // Left
+            case 38: // Up
+              this.prev();
+              break;
+            case 9:  // Tab
+            case 32: // Space
+            case 34: // Page down
+            case 39: // Right
+            case 40: // Down
+              this.next();
+              break;
+            default:
+              break;
+          }
         }
-      }
-    }, 250), false);
+      }, 250);
+      document.addEventListener('keyup', this.onKeyUp, false);
+    }
 
     // Window resize
-    window.addEventListener('resize', throttle(() => {
+    this.onResize = throttle(() => {
       if (impressSupported)
         this.goto(this.state.activeStep, 500);
-    }, 250), false);
+    }, 250);
+    window.addEventListener('resize', this.onResize, false);
 
     // URL hash change
-    window.addEventListener('hashchange', throttle(() => {
+    this.onHashChange = throttle(() => {
       if (window.location.hash !== _lastHash)
         this.goto(getElementFromHash(_stepsData), 500);
-    }, 250), false);
+    }, 250);
+    window.addEventListener('hashchange', this.onHashChange, false);
   }
 
   componentWillReceiveProps(nextPorps) {
@@ -136,9 +160,9 @@ export default class Impress extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', function(event) {
-      console.log(event.keyCode);
-    }, false);
+    document.removeEventListener('keyup', this.onKeyUp, false);
+    window.removeEventListener('resize', this.onResize, false);
+    window.removeEventListener('keyup', this.onHashChange, false);
   }
 
   /**
@@ -214,6 +238,10 @@ export default class Impress extends Component {
         },
       },
     }));
+    
+    if (this.callbacks.onInit) {
+      this.callback.onInit.call(this, this);
+    }
   }
 
   /**
@@ -245,6 +273,10 @@ export default class Impress extends Component {
    * @param {number} duration 1000 speed of navigation.
    */
   goto(step, duration = 1000) {
+    if (this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
+      return;
+    }
+    
     const {config, activeStep} = this.state;
     let {windowScale} = this.state;
 
@@ -301,6 +333,8 @@ export default class Impress extends Component {
     }));
 
     window.location.hash = _lastHash = '#/' + step.id;
+
+    this.callbacks.onGoTo && this.callbacks.onGoTo.call(this, this, step, duration);
   }
 
   // Navigate to the PREVIOUS Step.
@@ -487,4 +521,8 @@ Impress.defaultProps = {
     required</b> by React-impressJS, so you are presented
     with a simplified version of this presentation.</p>,
   progress: false,
+  onInit: function () {},
+  onGoTo: function () {},
+  onBeforeGoTo: function () {return true;},
+  disableEvents: false,
 };
