@@ -34,20 +34,8 @@ export default class Impress extends Component {
       hint,
       hintMessage,
       fallbackMessage,
-      progress,
-      onInit,
-      onGoTo,
-      onBeforeGoTo,
-      disableEvents
+      progress
     } = props;
-
-    this.callbacks = {
-      onInit,
-      onGoTo,
-      onBeforeGoTo,
-    };
-
-    if (disableEvents) { this.disableEvents = true; }
 
     const rootStyles = {
       position: 'absolute',
@@ -105,7 +93,7 @@ export default class Impress extends Component {
       this.goto(_activeStep, 500);
 
     // Listener for keyboard event
-    if (!this.disableEvents) {
+    if (!this.props.disableEvents) {
       this.onKeyUp = throttle((e) => {
         if (e.keyCode === 9 ||
             (e.keyCode >= 32 && e.keyCode <= 40)) {
@@ -239,8 +227,8 @@ export default class Impress extends Component {
       },
     }));
 
-    if (this.callbacks.onInit) {
-      this.callbacks.onInit.call(this, this);
+    if (this.props.onInit) {
+      this.props.onInit.call(this, this);
     }
   }
 
@@ -273,7 +261,7 @@ export default class Impress extends Component {
    * @param {number} duration 1000 speed of navigation.
    */
   goto(step, duration = 1000, skipCallbacks = false) {
-    if (!skipCallbacks && this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
+    if (!skipCallbacks && this.props.onBeforeGoTo && this.props.onBeforeGoTo.call(this, this, step, duration)) {
       return Promise.reject();
     }
 
@@ -334,8 +322,8 @@ export default class Impress extends Component {
 
     window.location.hash = _lastHash = '#/' + step.id;
 
-    !skipCallbacks && this.callbacks.onGoTo
-      && this.callbacks.onGoTo.call(this, this, step, duration);
+    !skipCallbacks && this.props.onGoTo
+      && this.props.onGoTo.call(this, this, step, duration);
 
     return new Promise((resolve) => {
       setTimeout(resolve, duration + 16);
@@ -448,7 +436,11 @@ export default class Impress extends Component {
       idHelper: step.props.id ? '' : _idHelper++,
       activeStep: activeStep,
       initStep: Impress.initStep.bind(this),
-      goto: this.goto.bind(this),
+      goto: this.props.disableEvents
+        ? null
+        : (this.props.onPickStep
+          ? this.props.onPickStep.bind(this, [this])
+          : this.goto.bind(this)),
     }, step.props.children);
   }
 
@@ -469,16 +461,18 @@ export default class Impress extends Component {
 
     return (
         <div id="react-impressjs"
-             className={
-               (impressSupported
-                   ? 'impress-supported'
-                   : 'impress-not-supported') +
-               (activeStep ? ' impress-on-' + activeStep.id : '') +
-               ' impress-enabled'
-             }
-             onTouchStart={this.handleTouchStart.bind(this)}
-             onTouchMove={this.handleTouchMove.bind(this)}
-             onTouchEnd={this.handleTouchEnd.bind(this)}>
+           className={
+             (impressSupported
+                 ? 'impress-supported'
+                 : 'impress-not-supported') +
+             (activeStep ? ' impress-on-' + activeStep.id : '') +
+             ' impress-enabled'
+           }
+           onTouchStart={this.handleTouchStart.bind(this)}
+           onTouchMove={this.handleTouchMove.bind(this)}
+           onTouchEnd={this.handleTouchEnd.bind(this)}
+           style={this.props.style}
+        >
 
           <div id="impress" style={rootStyles}>
             <div style={cameraStyles}>
@@ -530,14 +524,17 @@ Impress.propTypes = {
    */
   progress: PropTypes.bool,
 
+  style: PropTypes.object,
   onInit: PropTypes.func,
   onGoTo: PropTypes.func,
   onBeforeGoTo: PropTypes.func,
+  onPickStep: PropTypes.func,
   disableEvents: PropTypes.bool,
   progressDivision: PropTypes.number
 };
 
 Impress.defaultProps = {
+  style: {},
   rootData: {},
   hint: true,
   hintMessage: <p>Use <b>Spacebar</b> or <b>Arrow keys</b> to navigate</p>,
@@ -548,6 +545,7 @@ Impress.defaultProps = {
   onInit: function () {},
   onGoTo: function () {},
   onBeforeGoTo: function () {return true;},
+  onPickStep: null,
   disableEvents: false,
   progressDivision: 1,
 };

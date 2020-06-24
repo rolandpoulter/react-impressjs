@@ -12,17 +12,20 @@ export default class Progress extends Component {
         ? 0.2
         : 1;
     let {stepsTotal} = this.props;
-    let currentStepIndex = Object.keys(stepsData).
-                                  findIndex((s) => s === activeStep.id) + 1;
-    if (currentStepIndex > 1) {
-      currentStepIndex = Math.ceil(currentStepIndex / progressDivision);
+
+    if (stepsTotal > 0) {
+      stepsTotal = Math.round(stepsTotal / progressDivision);
     }
 
-    if (stepsTotal > 1) {
-      stepsTotal = Math.ceil(stepsTotal / progressDivision);
+    let currentStepIndex = (
+      Object.keys(stepsData).findIndex((s) => s === activeStep.id)
+    );
+
+    if (currentStepIndex > 0) {
+      currentStepIndex = Math.round(currentStepIndex / progressDivision);
     }
 
-    let percent = parseInt(currentStepIndex / stepsTotal * 100, 10);
+    let percent = parseInt((currentStepIndex / stepsTotal) * 100, 10);
 
     return (
         <div style={{
@@ -38,9 +41,9 @@ export default class Progress extends Component {
             opacity: .5,
           }}>
                     <span>
-                      {currentStepIndex}
+                      {(currentStepIndex + 1)}
                       <span style={{paddingLeft: 1, fontSize: 13}}>
-                        {'/' + stepsTotal}
+                        {'/' + (stepsTotal + 1)}
                       </span>
                     </span>
           </p>

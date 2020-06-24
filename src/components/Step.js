@@ -16,7 +16,7 @@ export default class Step extends Component {
   constructor(props) {
     super(props);
 
-    const {className, duration} = this.props;
+    const {className, duration, style} = this.props;
 
     this.state = {
       id: this.gtepID(),
@@ -47,6 +47,11 @@ export default class Step extends Component {
   // Step's Event
   handleClick(e) {
     const {goto} = this.props;
+
+    if (!goto) {
+      return;
+    }
+
     let target = e.target;
 
     while (!target.classList.contains('step') &&
@@ -98,6 +103,7 @@ export default class Step extends Component {
     const {data} = this.state;
 
     let _stepStyle = {
+      ...(this.props.style || {}),
       position: 'absolute',
       transform: 'translate(-50%, -50%) ',
       transformStyle: 'preserve-3d',
