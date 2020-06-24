@@ -274,7 +274,7 @@ export default class Impress extends Component {
    */
   goto(step, duration = 1000) {
     if (this.callbacks.onBeforeGoTo && this.callbacks.onBeforeGoTo.call(this, this, step, duration)) {
-      return;
+      return Promise.reject();
     }
 
     const {config, activeStep} = this.state;
@@ -335,6 +335,10 @@ export default class Impress extends Component {
     window.location.hash = _lastHash = '#/' + step.id;
 
     this.callbacks.onGoTo && this.callbacks.onGoTo.call(this, this, step, duration);
+
+    return new Promise((resolve) => {
+      setTimeout(resolve, duration + 16);
+    });
   }
 
   // Navigate to the PREVIOUS Step.
@@ -363,7 +367,7 @@ export default class Impress extends Component {
     // get previous step
     prev = _stepsData[prev];
 
-    this.goto(prev, prev.duration);
+    return this.goto(prev, prev.duration);
   }
 
   // Navigate to the NEXT Step.
@@ -374,7 +378,7 @@ export default class Impress extends Component {
     next = next < stepsDataKeys.length ? stepsDataKeys[next] : stepsDataKeys[0];
     next = _stepsData[next];
 
-    this.goto(next, next.duration);
+    return this.goto(next, next.duration);
   }
 
   // Navigate to the FIRST Step.
@@ -382,7 +386,7 @@ export default class Impress extends Component {
     const stepsDataEntries = Object.entries(_stepsData);
     const firstStep = stepsDataEntries[0][1];
 
-    this.goto(firstStep, firstStep.duration);
+    return this.goto(firstStep, firstStep.duration);
   }
 
   // Navigate to the LAST Step.
@@ -390,7 +394,7 @@ export default class Impress extends Component {
     const stepsDataEntries = Object.entries(_stepsData);
     const lastStep = stepsDataEntries[stepsDataEntries.length - 1][1];
 
-    this.goto(lastStep, lastStep.duration);
+    return this.goto(lastStep, lastStep.duration);
   }
 
   // Touch Start( record start position: startX )
