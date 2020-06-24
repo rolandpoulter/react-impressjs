@@ -4,7 +4,7 @@ import PropTypes          from 'prop-types';
 
 export default class Progress extends Component {
   render() {
-    const {progress, stepsData, activeStep, stepsTotal} = this.props;
+    const {progress, progressDivision, stepsData, activeStep, stepsTotal} = this.props;
     const color_gold = '#e5b560',
           color_gray = '#3e4852';
     const ua = navigator.userAgent.toLowerCase();
@@ -29,9 +29,9 @@ export default class Progress extends Component {
             opacity: .5,
           }}>
                     <span>
-                        {currentStepIndex}
+                        {currentStepIndex / progressDivision}
                       <span style={{paddingLeft: 1, fontSize: 13}}>{'/' +
-                      stepsTotal}</span>
+                      stepsTotal / progressDivision}</span>
                     </span>
           </p>
           <Line percent={percent}
@@ -49,6 +49,8 @@ Progress.propTypes = {
    */
   progress: PropTypes.bool,
 
+  progressDivision: PropTypes.number,
+
   /**
    * Steps data
    */
@@ -65,4 +67,8 @@ Progress.propTypes = {
    * Amount of steps
    */
   stepsTotal: PropTypes.number,
+};
+
+Progress.defaultProps = {
+  progressDivision: 1
 };

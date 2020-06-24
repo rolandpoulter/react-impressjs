@@ -451,6 +451,9 @@ export default class Impress extends Component {
             fallbackMessage,
             progress,
           } = this.state;
+    const {
+      progressMultiplier
+    } = this.props;
     const steps = React.Children.map(this.props.children,
         this.stepComponent.bind(this));
     const stepsTotal = React.Children.count(this.props.children);
@@ -483,6 +486,7 @@ export default class Impress extends Component {
               hintMessage={hintMessage}/>
           <Progress
               progress={progress}
+              progressMultiplier={progressMultiplier}
               stepsData={_stepsData}
               activeStep={activeStep}
               stepsTotal={stepsTotal}/>
@@ -516,6 +520,12 @@ Impress.propTypes = {
    * Progress of presentation
    */
   progress: PropTypes.bool,
+
+  onInit: PropTypes.func,
+  onGoTo: PropTypes.func,
+  onBeforeGoTo: PropTypes.func,
+  disableEvents: PropTypes.bool,
+  progressDivision: PropTypes.number
 };
 
 Impress.defaultProps = {
@@ -530,4 +540,5 @@ Impress.defaultProps = {
   onGoTo: function () {},
   onBeforeGoTo: function () {return true;},
   disableEvents: false,
+  progressMultiplier: 1,
 };
