@@ -29,9 +29,10 @@ export default class Progress extends Component {
             opacity: .5,
           }}>
                     <span>
-                        {currentStepIndex <= 1 ? currentStepIndex : Math.floor((currentStepIndex - 1) / progressDivision)}
-                      <span style={{paddingLeft: 1, fontSize: 13}}>{'/' +
-                      (stepsTotal <= 1 ? stepsTotal : Math.floor(stepsTotal / progressDivision))}</span>
+                      {currentStepIndex <= 1 ? currentStepIndex : Math.ceil(currentStepIndex / progressDivision)}
+                      <span style={{paddingLeft: 1, fontSize: 13}}>
+                        {'/' + (stepsTotal <= 1 ? stepsTotal : Math.ceil(stepsTotal / progressDivision))}
+                      </span>
                     </span>
           </p>
           <Line percent={percent}
