@@ -25,7 +25,7 @@ export default class Progress extends Component {
       currentStepIndex = Math.round(currentStepIndex / progressDivision);
     }
 
-    let percent = parseInt((currentStepIndex / stepsTotal) * 100, 10);
+    let percent = parseInt(((currentStepIndex + 1) / stepsTotal) * 100, 10);
 
     return (
         <div style={{
