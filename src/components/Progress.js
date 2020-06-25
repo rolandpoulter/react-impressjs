@@ -43,7 +43,7 @@ export default class Progress extends Component {
                     <span>
                       {(currentStepIndex + 1)}
                       <span style={{paddingLeft: 1, fontSize: 13}}>
-                        {'/' + (stepsTotal + 1)}
+                        {'/' + (stepsTotal)}
                       </span>
                     </span>
           </p>
