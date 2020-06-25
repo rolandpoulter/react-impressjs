@@ -27,9 +27,15 @@ export default class Progress extends Component {
     }
 
     let percent = parseInt(((currentStepIndex + 1) / stepsTotal) * 100, 10);
+    const end = (currentStepIndex + 1) === stepsTotal;
+    const begin = currentStepIndex === 0;
 
     return (
-        <div id="react-impressjs-progress" style={{ display: progress ? 'block' : 'none' }}>
+        <div
+          id="react-impressjs-progress"
+          style={{ display: progress ? 'block' : 'none' }}
+          className={`${end ? ' end' : begin ? ' begin' : ''} num-${currentStepIndex + 1}`}
+        >
           <p className="ratio" style={{ color: color_gray, marginLeft: percent + '%' }}>
             <span>
               {(currentStepIndex + 1)}
