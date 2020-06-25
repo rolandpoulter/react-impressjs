@@ -36,7 +36,7 @@ export default class Progress extends Component {
           style={{ display: progress ? 'block' : 'none' }}
           className={`num-${currentStepIndex + 1}${end ? ' end' : begin ? ' begin' : ''}`}
         >
-          <p className="ratio" style={{ color: color_gray, marginLeft: percent + '%' }}>
+          <p className="ratio" style={{ color: color_gray, width: percent + '%' }}>
             <span>
               {(currentStepIndex + 1)}
               <span>
