@@ -439,7 +439,7 @@ export default class Impress extends Component {
       goto: this.props.disableEvents
         ? null
         : (this.props.onPickStep
-          ? this.props.onPickStep.bind(this, [this.goto.bind(this)])
+          ? this.props.onPickStep.bind(this, this.goto.bind(this))
           : this.goto.bind(this)),
     }, step.props.children);
   }
