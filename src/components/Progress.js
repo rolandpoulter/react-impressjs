@@ -33,7 +33,7 @@ export default class Progress extends Component {
           <p className="ratio" style={{ color: color_gray }}>
                     <span>
                       {(currentStepIndex + 1)}
-                      <span style={{paddingLeft: 1, fontSize: 13}}>
+                      <span>
                         {'/' + (stepsTotal)}
                       </span>
                     </span>
