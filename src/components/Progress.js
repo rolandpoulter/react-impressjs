@@ -34,7 +34,7 @@ export default class Progress extends Component {
         <div
           id="react-impressjs-progress"
           style={{ display: progress ? 'block' : 'none' }}
-          className={`${end ? ' end' : begin ? ' begin' : ''} num-${currentStepIndex + 1}`}
+          className={`num-${currentStepIndex + 1}${end ? ' end' : begin ? ' begin' : ''}`}
         >
           <p className="ratio" style={{ color: color_gray, marginLeft: percent + '%' }}>
             <span>
