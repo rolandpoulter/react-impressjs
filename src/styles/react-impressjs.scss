@@ -28,7 +28,7 @@ $_sub-color : #e5b560;
      -moz-transform: $transform;
       -ms-transform: $transform;
           transform: $transform;
-          
+
   -webkit-transition-delay: $delay;
      -moz-transition-delay: $delay;
       -ms-transition-delay: $delay;
@@ -61,6 +61,20 @@ time, mark, audio, video {
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
+}
+
+#react-impressjs-progress {
+  position: fixed;
+  bottom: -3px;
+  width: 100%;
+  display: block;
+}
+
+#react-impressjs-progress p.ratio {
+  font-size: 20px;
+  color: #999;
+  text-align: center;
+  opacity: 0.5;
 }
 
 #react-impressjs{
@@ -118,7 +132,7 @@ sup {top: -.5em;}
   font-family: $_font-family;
   font-size: $_font-size;
   line-height: 1.5;
-  
+
   /*****************/
   /*** Font-Size ***/
   /*****************/
@@ -135,21 +149,21 @@ sup {top: -.5em;}
     opacity: 0.3;
 
     @include transition(opacity, 1s);
-    
-    &.active{ 
-      opacity: 1; 
+
+    &.active{
+      opacity: 1;
       cursor: default;
     }
-    
+
     a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
       padding: 0 0.4em;
       background: $_main-color;
       border-radius: 0.2em;
-    
+
       @include transition(all, .5s);
-      
+
       &:hover, &:focus {
         color: $_sub-color;
         background: lighten($_main-color, 5);
@@ -159,7 +173,7 @@ sup {top: -.5em;}
     }
     b {
       display: inline-block;
-      
+
       @include transition(all, .5s);
     }
     &.present {
@@ -207,14 +221,14 @@ sup {top: -.5em;}
   $_font-size: 35px;
   font-size: $_font-size;
   letter-spacing: 1px;
-  
+
   h1, .h1{ font-size: ($_font-size * 2.6); }
   h2, .h2{ font-size: ($_font-size * 2.15); }
   h3, .h3{ font-size: ($_font-size * 1.7); }
   h4, .h4{ font-size: ($_font-size * 1.3); }
   h5, .h5{ font-size: ($_font-size * 1); }
   h6, .h6{ font-size: ($_font-size * 0.85); }
-  
+
   &:hover{
     box-shadow: 0 8px 16px rgba(0,40,80,.08), 0 8px 24px 5px rgba(0,0,0,.08);
   }
@@ -238,7 +252,7 @@ sup {top: -.5em;}
   background-color: $_main-color;
   font-size: 20px;
   text-align: center;
-  
+
   width: 400px;
   min-height: 100px;
   line-height: 100px;
@@ -250,7 +264,7 @@ sup {top: -.5em;}
 
   border-radius: 3px;
   filter: drop-shadow(0 8px 8px rgba(0,0,0,.3));
-  
+
   b {
     color: $_sub-color;
   }
@@ -258,16 +272,16 @@ sup {top: -.5em;}
 .mobile-hint {
   opacity: 0;
   animation: fadeOutUp .6s ease forwards;
-  
+
   text-align: center;
   color: $_main-color;
-  
+
   width: 128px;
-  
+
   position: fixed;
   left: calc(50% - 64px);
   bottom: 10%;
-  
+
   img {
     display:block;
     margin: 0 auto;
@@ -283,7 +297,7 @@ sup {top: -.5em;}
     animation: fadeInDown .6s ease 1s forwards;
   }
 }
-.impress-enabled { 
+.impress-enabled {
   .hint, .mobile-hint { display: block }
 }
 /*
@@ -318,7 +332,7 @@ sup {top: -.5em;}
     line-height: 72px;
 
     margin-top: 100px;
-    
+
     strong {
       white-space: nowrap;
     }
@@ -326,18 +340,18 @@ sup {top: -.5em;}
 }
 #title {
   padding: 0;
-  
+
   .try {
     font-size: 64px;
     position: absolute;
     top: -0.5em;
     left: 1.5em;
-    
+
     @include transform(translateZ(20px), 0s);
   }
   h1 {
     font-size: 190px;
-    
+
     @include transform(translateZ(50px), 0s);
   }
   .footnote {
@@ -370,7 +384,7 @@ sup {top: -.5em;}
 
 #imagination {
   width: 600px;
-  
+
   .imagination {
     font-size: 78px;
   }
@@ -384,7 +398,7 @@ sup {top: -.5em;}
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAMAAACwUBm+AAAAAXNSR0IArs4c6QAAAKtQTFRFsAAAvbWSLUUrLEQqY1s8UYJMqJ1vNTEgOiIdIzYhjIFVLhsXZ6lgSEIsP2U8JhcCVzMsSXZEgXdOO145XJdWOl03LzAYMk4vSXNExr+hwcuxRTs1Qmk+RW9Am49eFRANQz4pUoNMQWc+OSMDTz0wLBsCNVMxa2NBOyUDUoNNSnlEWo9VRGxAVzYFl6tXCggHbLNmMUIcHhwTXkk5f3VNRT8wUT8xAAAACQocRBWFFwAAAAF0Uk5TAEDm2GYAAAPCSURBVHja7d3JctNAFIZRMwRCCGEmzPM8z/D+T8bu/ptbXXJFdij5fMt2Wuo+2UgqxVmtttq5WVotLzBgwIABAwYMGDCn0qVqbo69psPqVpWx+1XG5iaavF8wYMCAAQMGDBgwi4DJ6Y6qkxB1HNlcN3a92gbR5P2CAQMGDBgwYMCAWSxMlrU+UY5yu2l9okfV4bAxUVbf7TJnAwMGDBgwYMCAAbMLMHeqbGR82Zy+VR1Ht81nVca6R+UdTLaU24Ruzd3qM/e4yjnAgAEDBgwYMGDA7AJMd1l/3NRdVGcj3eX/2WEhCmDGxnM7yqygu8XIPjJj8iN/MGDAgAEDBgwYMAuDGb8q0RGlLCHLv1t9qDKWn3vdNHVuEI6HPaxO9Jo3GDBgwIABAwYMmIXBdC9ShGgMk+XnkXUeuGcsP/e1+lhNnZsL/G5Vs3OAAQMGDBgwYMCAWSxMR3SzOmraG5atdy9wZKzb+vg16qyqe2FltbnAgAEDBgwYMGDALAxmTJSuN3WA76rnVca6GTnemGN1WoEBAwYMGDBgwIBZGMxUomy4+xO899V4LAg5Xnc2MGDAgAEDBgwYMGA218Wq+2K1LDqvY9xZu8zN8fICdM6btYABAwYMGDBgwIABMzfH0+pGU5afze2tXebmeAfVz+p8BQYMGDBgwIABAwbMPBzZ+oWmfJrln1273FhkbHzee9WWbw7AgAEDBgwYMGDALAKm43hcdctKgblcPamOhuXnXlY5Xs6bsW4FGyQCAwYMGDBgwIABswiYMceZKgvMo+h8mrHLTdn676rj+FEFoTtHd8MwOxEYMGDAgAEDBgyYRcBM5UhXqiymW3R3c9ARhWO/OmjqfjVZy+xEYMCAAQMGDBgwYBYG073OnCV0RFNhMhaOa9WfKmOB6XjHMN1tQmaAAQMGDBgwYMCA2VWY7vXjz1U4croAzgPztwIDBgwYMGDAgAEDZhswh035NBw59Dww3RgYMGDAgAEDBgwYMJuD6f4tXT7NUqfCdBvZLkxXdgQGDBgwYMCAAQNmt2DGj8WzwAfV/w7T/aq7mxwwYMCAAQMGDBgwuwqTOo7uTwTngflSzQ3TdaJvAwEDBgwYMGDAgAED5gSvgbyo5oHZ4Pc+gwEDBgwYMGDAgAEzhOm+5G0qTGaAAQMGDBgwYMCAAXNaMOcnls3tNwWm+zRzp54NDBgwYMCAAQMGDJh5YNL36k1TLuGvVq+qnKMbS5n7tulT9asCAwYMGDBgwIABA2ZumKuztLnjgQEDBgwYMGDAgNl5mH/4/ltKA6vBNAAAAABJRU5ErkJggg==);
   background-position: bottom right;
   background-repeat: no-repeat;
-  
+
   q { font-size: 60px; }
 }
 
@@ -398,7 +412,7 @@ sup {top: -.5em;}
   }
   span, b {
     display: inline-block;
-    
+
     @include transform(translateZ(40px), .5s);
   }
   .have { @include transform(translateZ(-40px), 0s); }
@@ -406,9 +420,9 @@ sup {top: -.5em;}
   .noticed { @include transform(translateZ(-40px), 0s); }
   .its { @include transform(translateZ(60px), 0s); }
   .in { @include transform(translateZ(-10px), 0s); }
-  .footnote { 
+  .footnote {
     font-size: 32px;
-    @include transform(translateZ(-10px), 0s); 
+    @include transform(translateZ(-10px), 0s);
   }
   &.present {
     span, b {

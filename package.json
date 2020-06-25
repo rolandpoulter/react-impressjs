@@ -81,8 +81,9 @@
     "whatwg-fetch": "2.0.2"
   },
   "scripts": {
-    "build-css": "node-sass src/ -o src/",
-    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
+    "build-css": "node-sass src/styles/react-impressjs.scss -o styles/",
+    "build-css-old": "node-sass src/ -o src/",
+    "watch-css-old": "npm run build-css && node-sass src/ -o src/ --watch",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",

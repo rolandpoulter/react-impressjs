@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Impress, Step } from './components';
 //import { Impress, Step } from '../';
-import './styles/_base.scss';
+import './styles/react-impressjs.scss';
 //import '../styles/impress-demo.css';
 
 import demo from './demo/impress-demo';
@@ -14,11 +14,11 @@ class App extends Component {
         demo.map( (d, index ) => {
           return (
             React.createElement( Step, {
-              id: d.id, 
+              id: d.id,
               className: d.className,
               data: d.data,
               key: index
-            }, 
+            },
             d.content.map( (child, index) => {
               return (
                 React.cloneElement( child, {
@@ -28,7 +28,7 @@ class App extends Component {
                 })
               );
             }))
-            
+
           );
         })
       }
