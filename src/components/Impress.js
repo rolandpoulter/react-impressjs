@@ -20,7 +20,7 @@ import Hint     from './Hint';
 const html = document.documentElement,
       body = document.body;
 
-let _lastHash  = '',
+let _lastHash  = window.location.hash,
     _stepsData = {},
     _activeStep,
     _idHelper  = 1;
@@ -133,10 +133,16 @@ export default class Impress extends Component {
 
     // URL hash change
     this.onHashChange = throttle(() => {
+      debugger;
       if (window.location.hash !== _lastHash)
         this.goto(getElementFromHash(_stepsData), 500);
     }, 250);
     window.addEventListener('hashchange', this.onHashChange, false);
+  }
+
+  getElementFromHash(object) {
+    debugger;
+    return getElementFromHash(object);
   }
 
   componentWillReceiveProps(nextPorps) {
