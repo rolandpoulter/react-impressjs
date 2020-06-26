@@ -278,7 +278,9 @@ export default class Impress extends Component {
    */
   goto(step, duration = 1000, skipCallbacks = false) {
     if (!skipCallbacks && this.props.onBeforeGoTo && this.props.onBeforeGoTo.call(this, this, step, duration)) {
-      return Promise.reject();
+      return Promise.reject().catch(() => {
+        console.warn('rejected step', step);
+      });
     }
 
     const {config, activeStep} = this.state;
