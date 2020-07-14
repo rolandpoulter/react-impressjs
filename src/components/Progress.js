@@ -4,7 +4,7 @@ import PropTypes          from 'prop-types';
 
 export default class Progress extends Component {
   render() {
-    const {progress, progressDivision, stepsData, activeStep} = this.props;
+    const {progress, progressDivision, skipSteps, stepsData, activeStep} = this.props;
     const color_gold = 'rgba(240,240,120, 0.5)',
           color_gray = 'rgba(120,120,140, 0.5)';
     const ua = navigator.userAgent.toLowerCase();
@@ -30,6 +30,9 @@ export default class Progress extends Component {
     const end = (currentStepIndex + 1) === stepsTotal;
     const begin = currentStepIndex === 0;
 
+    const step = Math.floor((currentStepIndex + 1) / skipSteps);
+    const final = Math.floor((stepsTotal) / skipSteps);
+
     return (
         <div
           id="react-impressjs-progress"
@@ -38,9 +41,9 @@ export default class Progress extends Component {
         >
           <p className="ratio" style={{ color: color_gray, width: percent + '%' }}>
             <span>
-              {(currentStepIndex + 1)}
+              {step}
               <span>
-                <span>/</span>{(stepsTotal)}
+                <span>/</span>{final}
               </span>
             </span>
           </p>
@@ -85,8 +88,11 @@ Progress.propTypes = {
    * Amount of steps
    */
   stepsTotal: PropTypes.number,
+
+  skipSteps: PropTypes.number,
 };
 
 Progress.defaultProps = {
-  progressDivision: 1
+  progressDivision: 1,
+  skipSteps: 1,
 };

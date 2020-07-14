@@ -471,7 +471,8 @@ export default class Impress extends Component {
             progress,
           } = this.state;
     const {
-      progressDivision
+      progressDivision,
+      skipSteps,
     } = this.props;
     const steps = React.Children.map(this.props.children,
         this.stepComponent.bind(this));
@@ -507,6 +508,7 @@ export default class Impress extends Component {
               hintMessage={hintMessage}/>
           <Progress
               progress={progress}
+              skipSteps={skipSteps}
               progressDivision={progressDivision}
               stepsData={_stepsData}
               activeStep={activeStep}
@@ -548,7 +550,8 @@ Impress.propTypes = {
   onBeforeGoTo: PropTypes.func,
   onPickStep: PropTypes.func,
   disableEvents: PropTypes.bool,
-  progressDivision: PropTypes.number
+  progressDivision: PropTypes.number,
+  skipSteps: PropTypes.number,
 };
 
 Impress.defaultProps = {
@@ -566,4 +569,5 @@ Impress.defaultProps = {
   onPickStep: null,
   disableEvents: false,
   progressDivision: 1,
+  skipSteps: 1,
 };
