@@ -30,8 +30,8 @@ export default class Progress extends Component {
     const end = (currentStepIndex + 1) === stepsTotal;
     const begin = currentStepIndex === 0;
 
-    const step = Math.floor((currentStepIndex + 1) / skipSteps);
-    const final = Math.floor((stepsTotal) / skipSteps);
+    const step = Math.floor((currentStepIndex + skipSteps) / skipSteps);
+    const final = Math.floor((stepsTotal + skipSteps) / skipSteps);
 
     return (
         <div
