@@ -126,8 +126,9 @@ export default class Impress extends Component {
 
     // Window resize
     this.onResize = throttle(() => {
-      if (impressSupported)
+      if (impressSupported) {
         this.goto(this.state.activeStep, 500, true);
+      }
     }, 250);
     window.addEventListener('resize', this.onResize, false);
 
@@ -351,7 +352,7 @@ export default class Impress extends Component {
   // Navigate to the PREVIOUS Step.
   prev() {
     const {
-      progressDivision
+      progressDivision,
     } = this.props;
     const {activeStep} = this.state;
 
@@ -472,6 +473,7 @@ export default class Impress extends Component {
           } = this.state;
     const {
       progressDivision,
+      progressGroups,
       skipSteps,
     } = this.props;
     const steps = React.Children.map(this.props.children,
@@ -510,6 +512,7 @@ export default class Impress extends Component {
               progress={progress}
               skipSteps={skipSteps}
               progressDivision={progressDivision}
+              progressGroups={progressGroups}
               stepsData={_stepsData}
               activeStep={activeStep}
               stepsTotal={stepsTotal}/>
@@ -551,6 +554,7 @@ Impress.propTypes = {
   onPickStep: PropTypes.func,
   disableEvents: PropTypes.bool,
   progressDivision: PropTypes.number,
+  progressGroups: PropTypes.array,
   skipSteps: PropTypes.number,
 };
 
@@ -569,5 +573,6 @@ Impress.defaultProps = {
   onPickStep: null,
   disableEvents: false,
   progressDivision: 1,
+  progressGroups: [],
   skipSteps: 1,
 };

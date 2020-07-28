@@ -4,7 +4,14 @@ import PropTypes          from 'prop-types';
 
 export default class Progress extends Component {
   render() {
-    const {progress, progressDivision, skipSteps, stepsData, activeStep} = this.props;
+    const {
+      progress,
+      progressDivision,
+      progressGroups,
+      skipSteps,
+      stepsData,
+      activeStep,
+    } = this.props;
     const color_gold = 'rgba(240,240,120, 0.5)',
           color_gray = 'rgba(120,120,140, 0.5)';
     const ua = navigator.userAgent.toLowerCase();
@@ -22,8 +29,31 @@ export default class Progress extends Component {
       Object.keys(stepsData).findIndex((s) => s === activeStep.id)
     );
 
+    if (currentStepIndex === -1) {
+      // debugger;
+      currentStepIndex = 0;
+    }
+
     if (currentStepIndex > 0) {
+      // debugger;
       currentStepIndex = Math.round(currentStepIndex / progressDivision);
+    }
+
+    // TODO: progressGroups
+    let group = progressGroups.length ? 0 : null;
+    if (progressGroups.length) {
+      // debugger;
+      let i = currentStepIndex;
+      progressGroups.some((g, index) => {
+        if (g < i) {
+          i -= g;
+          group = index;
+          return true;
+        }
+        currentStepIndex = i;
+        stepsTotal = progressGroups[group];
+        return false;
+      });
     }
 
     let percent = parseInt(((currentStepIndex + 1) / stepsTotal) * 100, 10);
@@ -71,6 +101,7 @@ Progress.propTypes = {
   progress: PropTypes.bool,
 
   progressDivision: PropTypes.number,
+  progressGroups: PropTypes.array,
 
   /**
    * Steps data
@@ -94,5 +125,6 @@ Progress.propTypes = {
 
 Progress.defaultProps = {
   progressDivision: 1,
+  progressGroups: [],
   skipSteps: 1,
 };
