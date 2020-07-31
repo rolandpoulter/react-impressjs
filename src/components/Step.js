@@ -117,18 +117,24 @@ export default class Step extends Component {
   }
 
   render() {
-    const {children} = this.props;
-    const {id} = this.state;
+    const {activeStep, children} = this.props;
+    const {id, isPresented} = this.state;
 
     const _stepClassName = this.getClassName();
     const _stepStyle = this.getStyle();
+
+    // console.log('GOT HERE', activeStep.id === id);
+    // console.log('AND HERE', typeof children === 'function');
 
     return (
         <div id={id}
              className={_stepClassName}
              style={_stepStyle}
              onClick={this.handleClick.bind(this)}>
-          {children}
+          {typeof children === 'function' ? children(
+            activeStep.id === id,
+            isPresented,
+          ) : children}
         </div>
     );
   }
